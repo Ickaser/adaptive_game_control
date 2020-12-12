@@ -161,7 +161,7 @@ def PID(i,SPH, H, H_last, Kc,tau_I, tau_D, INTerr_prev, A_last, i_last):  #where
 
 
 # Model Gameplay Simulation
-def sim_gameplay(style, skill, adj=True, control=True):
+def sim_gameplay(style, skill, adj=False, control=True):
     # set up arrays, values
     HP_char = np.zeros(Npts) #Character Health
     HP_char[0] = HP0

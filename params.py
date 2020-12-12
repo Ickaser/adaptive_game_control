@@ -28,10 +28,10 @@ for skill in sk_list:
         #     plt.plot(time[0:etod],HP_char[0:etod],'k',label='HP')
         #     etod_list.append(etod)
         # etod_arr = np.array(etod_list)
-        HP_arr_arr = np.array([sim.sim_gameplay(style, skill, adj=True)[0] for n in range(N_sim)])
+        HP_arr_arr = np.array([sim.sim_gameplay(style, skill, adj=True, control=False)[0] for n in range(N_sim)])
         HP_arr = np.mean(HP_arr_arr, axis=0)
-        enem_arr_arr = np.array([sim.sim_gameplay(style, skill, adj=True)[2] for n in range(N_sim)])
-        etod_arr = np.array([sim.sim_gameplay(style, skill)[3] for n in range(N_sim)])
+        enem_arr_arr = np.array([sim.sim_gameplay(style, skill, adj=True, control=False)[2] for n in range(N_sim)])
+        etod_arr = np.array([sim.sim_gameplay(style, skill, control=False)[3] for n in range(N_sim)])
 
         np.savetxt(proj_dir+"sim_results/"+f"sim_results_skill{skill}_style{style[0]}_mod.txt", HP_arr.T, fmt="%d")
         np.savetxt(proj_dir+"sim_results/"+f"sim_results_skill{skill}_style{style[0]}.txt", etod_arr.T, fmt="%d")
@@ -101,13 +101,13 @@ for i, st in enumerate(full_arr_step):
             alt_DPS = 100/alt_etod
             gain = DPS[-1]-alt_DPS
             gain_list.append(gain)
-            plt.plot(time[:etod-step], DPS[:etod])
-            # plt.plot(range(1,11), sim, "x", color=col_list[i],)
+            # plt.plot(time[:etod-step], DPS[:etod])
+            # # plt.plot(range(1,11), sim, "x", color=col_list[i],)
             pass
         tau_arr.append(np.mean(tau_list))
         gain_arr.append(np.mean(gain_list))
         plt.title(f"skill {j+1}, style {lab_list[i][:3]}")
-        plt.show()
+        # plt.show()
       # plt.plot(range(1, 11), np.mean(st, axis=1), "-", color=col_list[i], label=lab_list[i]+" playstyle")
 tau_arr = np.array(tau_arr)
 gain_arr = np.array(gain_arr)
