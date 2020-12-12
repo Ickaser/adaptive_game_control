@@ -4,6 +4,7 @@ from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 import numpy.random as rnd
 import pickle
+import sys
 # %matplotlib inline
 
 # from google.colab import drive
@@ -17,8 +18,26 @@ import sim
 # proj_dir = "/content/gdrive/My Drive/ProcControl Project/"
 proj_dir = "./"
 
-style = "reckless"
-skill = 5
+try:
+    skill = int(sys.argv[1])
+    if skill > 10:
+        skill = 10
+    elif skill < 1:
+        skill = 1
+except:
+    raise ValueError("First command line argument should be skill, an int from 1-10.")
+try:
+    if sys.argv[2] == "c":
+        style = "conservative"
+    elif sys.argv[2] == "m":
+        style = "moderate"
+    elif sys.argv[2] == "r":
+        style = "reckless"
+    else:
+        raise ValueError("Invalid style type in command argument.")
+except:
+    raise ValueError("Second command line argument should be style: c for conservative, m for moderate, r for reckless.")
+
 
 Npts = 6000 # seconds
 time = np.linspace(0,Npts-1,Npts)
@@ -28,8 +47,6 @@ dt = time[1]-time[0]
 # At_char = np.ones(Npts)*10  #Character Attack
 HP0  = 100
 At_char = 1
-skill = 5
-style = "conservative"
 # style = "reckless"
 # style = "moderate"
 HP_char = np.zeros(Npts) #Character Health
