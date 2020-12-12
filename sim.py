@@ -130,7 +130,7 @@ tauD = 0
 dt    = 1
 
 
-def PID(i,SPH, H, H_last, Kc,tau_I, tau_D, INTerr_prev, i_last):  #where i is the current time
+def PID(i,SPH, H, H_last, Kc,tau_I, tau_D, INTerr_prev, A_last, i_last):  #where i is the current time
     # This function is written in terms of health, but works equivalently for a different PV.
     Abias = 1
     #P
@@ -151,6 +151,10 @@ def PID(i,SPH, H, H_last, Kc,tau_I, tau_D, INTerr_prev, i_last):  #where i is th
     elif At_enem>20:
         At_enem = 20
         INTerr -= sumierr
+    if At_enem - A_last > 3:
+        At_enem = A_last + 3
+    elif At_enem - A_last < -3:
+        At_enem = A_last - 3
       # print(At_enem,INTerr - INTerr_prev)
 
     return At_enem, INTerr
@@ -198,7 +202,8 @@ def sim_gameplay(style, skill, adj=True, control=True):
                 Kc, tauI = calc_params(kind)
                 # PID control with parameters
                 DPS_now = (HP0 - HP_char[i-1])/i
-                new_At, interr = PID(i, SP_DPS, DPS_now, DPS_last, Kc, tauI, tauD, interr, i_last)
+                new_At, interr = PID(i, SP_DPS, DPS_now, DPS_last, Kc, tauI, tauD, \
+                                    interr, At_enem[i-1], i_last)
                 DPS_last = DPS_now
                 i_last = i
                 # print("cntrl", end="")
