@@ -110,8 +110,8 @@ def calc_params(kind):
     gain = gain_arr[ind]
     tau = tau_arr[ind]
 
-    tauI = tau / 5
-    Kc = 1/gain * 3
+    tauI = tau *1.5
+    Kc = 1/gain * 2
     return Kc, tauI
 
 #kc = np.array([Kc1,Kc2,Kc3])
@@ -130,12 +130,12 @@ tauD = 0
 dt    = 1
 
 
-def PID(i,SPH, H, H_last, Kc,tau_I, tau_D, INTerr_prev):  #where i is the current time
+def PID(i,SPH, H, H_last, Kc,tau_I, tau_D, INTerr_prev, i_last):  #where i is the current time
     # This function is written in terms of health, but works equivalently for a different PV.
     Abias = 1
     #P
     error = SPH-H
-    sumierr = error*dt
+    sumierr = error*dt*(i-i_last)
 
 
     #ID 
@@ -174,6 +174,7 @@ def sim_gameplay(style, skill, adj=True, control=True):
             count_enem = 1
             # initialize DPS value
             DPS_last = 1
+            i_last = 0
             interr = 0
             continue
     
@@ -197,8 +198,9 @@ def sim_gameplay(style, skill, adj=True, control=True):
                 Kc, tauI = calc_params(kind)
                 # PID control with parameters
                 DPS_now = (HP0 - HP_char[i-1])/i
-                new_At, interr = PID(i, SP_DPS, DPS_now, DPS_last, Kc, tauI, tauD, interr)
+                new_At, interr = PID(i, SP_DPS, DPS_now, DPS_last, Kc, tauI, tauD, interr, i_last)
                 DPS_last = DPS_now
+                i_last = i
                 # print("cntrl", end="")
                 Enemy[1] += new_At
             elif adj and HP_char[i-1] <= 50:

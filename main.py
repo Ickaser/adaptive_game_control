@@ -65,6 +65,7 @@ err = SP_DPS - DPS
 SAE = np.sum(np.abs(err[:etod]))
 # print(err[:etod])
 print("SAE", SAE)
+print("etod", etod)
 
 # Plot results up until time of death
 
@@ -77,7 +78,7 @@ plt.text(etod*.8, 80, f"skill={skill}")
 plt.text(etod*.7, 60, f"style={style}")
 plt.legend(fontsize=14)
 plt.ylim(0, 100)
-plt.xlim(0, etod)
+plt.xlim(0, np.max([etod, 150]))
 plt.savefig(proj_dir + f"health_skill{skill:d}_style{style[0]}.png");
 plt.show()
 
@@ -90,6 +91,7 @@ plt.plot([0,etod],[SP_DPS,SP_DPS])
 plt.xlabel('Time (sec)',fontsize=18)
 plt.ylabel('Damage per second',fontsize=18)
 plt.ylim(0, 1.5)
+plt.xlim(0, np.max([etod, 150]))
 plt.axvline(150, color="gray", ls="--", label="")
 plt.savefig(proj_dir + f"dps_skill{skill:d}_style{style[0]}.png");
 plt.show()
@@ -98,6 +100,7 @@ plt.plot(time[0:etod],At_enem[0:etod],'k',label='Enemy attack')
 plt.title('Enemy Attack',fontsize=24)
 plt.xlabel('Time (sec)',fontsize=18)
 plt.ylabel('Attack',fontsize=18)
+plt.xlim(0, np.max([etod, 150]))
 plt.savefig(proj_dir + f"eatk_skill{skill:d}_style{style[0]}.png");
 plt.show();
 
