@@ -5,7 +5,7 @@ The basic file structure here is as follows:
 
 `sim.py` implements the basic gameplay simulation, as well as classification system and PID control system.
 
-`main.py` will run a simulation with `skill` and `style` parameters set inside the file, and generate and save some plots about that simulation. (It calls `plt.show`, so depending on where you run the code, it will probably also show you the plots.)
+`main.py` takes two command line arguments, an int from 1 to 10 for skill and `r`, `c`, or `m` for play style. It will run a simulation with those parameters, and generate and save some plots about that simulation. (It calls `plt.show`, so depending on where you run the code, it will probably also show you the plots.)
 
 `params.py` is used to run a large number of simulations, for the purpose of gathering statistics; it also uses those simulations to determine values for process gain $K_p$ and time constant $\tau_p$. (The generated values are stored in `params.txt` here, so you do not need to run this unless you want to recalculate $K_p$ and $\tau_p$. The simulation results are all stored in `sim_results` folder.
 
